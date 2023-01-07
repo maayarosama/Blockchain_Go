@@ -8,7 +8,7 @@ import (
 	"Blockchain_Go/database"
 )
 
-const DefaultHTTPort = 8080
+const DefaultHTTPort = 8081
 const endpointStatus = "/node/status"
 const endpointSync = "/node/sync"
 const endpointSyncQueryKeyFromBlock = "fromBlock"
