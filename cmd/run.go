@@ -15,17 +15,23 @@ import (
 func runCmd() *cobra.Command {
 	var runCmd = &cobra.Command{
 		Use:   "run",
-		Short: "A brief description of your command",
+		Short: "Launches the TBB node and its HTTP API.",
 		Run: func(cmd *cobra.Command, args []string) {
-			dataDir, _ := cmd.Flags().GetString(flagDataDir)
+			port, _ := cmd.Flags().GetUint64(flagPort)
 			fmt.Println("Launching TBB node and its HTTP API...")
 
-			err := node.Run(dataDir)
+			bootstrap := node.NewPeerNode(
+				"185.206.122.152",
+				8081,
+				true,
+				true,
+			)
+			n := node.New(getDataDirFromCmd(cmd), port, bootstrap)
+			err := n.Run()
 			if err != nil {
 				fmt.Println(err)
 				os.Exit(1)
 			}
-
 		},
 	}
 	addDefaultRequiredFlags(runCmd)

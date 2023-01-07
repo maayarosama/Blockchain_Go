@@ -1,8 +1,9 @@
 package node
 
 import (
-	"Blockchain_Go/database"
 	"net/http"
+
+	"Blockchain_Go/database"
 )
 
 type ErrRes struct {
@@ -26,9 +27,13 @@ type TxAddRes struct {
 }
 
 type StatusRes struct {
-	Hash       database.Hash `json:"block_hash"`
-	Number     uint64        `json:"block_number"`
-	KnownPeers []PeerNode    `json:"peers_known"`
+	Hash       database.Hash       `json:"block_hash"`
+	Number     uint64              `json:"block_number"`
+	KnownPeers map[string]PeerNode `json:"peers_known"`
+}
+
+type SyncRes struct {
+	Blocks []database.Block `json:"blocks"`
 }
 
 func listBalancesHandler(w http.ResponseWriter, r *http.Request, state *database.State) {
@@ -68,4 +73,23 @@ func statusHandler(w http.ResponseWriter, r *http.Request, node *Node) {
 	}
 
 	writeRes(w, res)
+}
+
+func syncHandler(w http.ResponseWriter, r *http.Request, dataDir string) {
+	reqHash := r.URL.Query().Get(endpointSyncQueryKeyFromBlock)
+
+	hash := database.Hash{}
+	err := hash.UnmarshalText([]byte(reqHash))
+	if err != nil {
+		writeErrRes(w, err)
+		return
+	}
+
+	blocks, err := database.GetBlocksAfter(hash, dataDir)
+	if err != nil {
+		writeErrRes(w, err)
+		return
+	}
+
+	writeRes(w, SyncRes{Blocks: blocks})
 }

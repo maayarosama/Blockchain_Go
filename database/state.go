@@ -49,7 +49,6 @@ func NewStateFromDisk(dataDir string) (*State, error) {
 		}
 
 		blockFsJson := scanner.Bytes()
-
 		if len(blockFsJson) == 0 {
 			break
 		}
@@ -64,6 +63,7 @@ func NewStateFromDisk(dataDir string) (*State, error) {
 			return nil, err
 		}
 		state.latestBlock = blockFs.Value
+
 		state.latestBlockHash = blockFs.Key
 	}
 
@@ -72,6 +72,7 @@ func NewStateFromDisk(dataDir string) (*State, error) {
 func (s *State) LatestBlock() Block {
 	return s.latestBlock
 }
+
 func (s *State) LatestBlockHash() Hash {
 	return s.latestBlockHash
 }

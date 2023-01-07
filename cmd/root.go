@@ -7,10 +7,15 @@ import (
 	"fmt"
 	"os"
 
+	"Blockchain_Go/fs"
+	"Blockchain_Go/node"
+
 	"github.com/spf13/cobra"
 )
 
 const flagDataDir = "datadir"
+const flagIP = "ip"
+const flagPort = "port"
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -36,6 +41,11 @@ func addDefaultRequiredFlags(cmd *cobra.Command) {
 		"",
 		"Absolute path where all data will/is stored",
 	)
+	cmd.Flags().Uint64(
+		flagPort,
+		node.DefaultHTTPort,
+		"Port",
+	)
 	cmd.MarkFlagRequired(flagDataDir)
 }
 func init() {
@@ -52,4 +62,9 @@ func init() {
 
 func incorrectUsageErr() error {
 	return fmt.Errorf("incorrect usage")
+}
+func getDataDirFromCmd(cmd *cobra.Command) string {
+	dataDir, _ := cmd.Flags().GetString(flagDataDir)
+
+	return fs.ExpandPath(dataDir)
 }

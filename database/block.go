@@ -25,7 +25,8 @@ type Block struct {
 type BlockHeader struct {
 	Parent Hash   `json:"parent"`
 	Number uint64 `json:"number"`
-	Time   uint64 `json:"time"`
+
+	Time uint64 `json:"time"`
 }
 
 type BlockFS struct {
