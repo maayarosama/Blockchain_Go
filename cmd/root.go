@@ -4,11 +4,10 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
-	"os"
-
 	"Blockchain_Go/fs"
 	"Blockchain_Go/node"
+	"fmt"
+	"os"
 
 	"github.com/spf13/cobra"
 )
@@ -36,16 +35,9 @@ func Execute() {
 }
 
 func addDefaultRequiredFlags(cmd *cobra.Command) {
-	cmd.Flags().String(
-		flagDataDir,
-		"",
-		"Absolute path where all data will/is stored",
-	)
-	cmd.Flags().Uint64(
-		flagPort,
-		node.DefaultHTTPort,
-		"Port",
-	)
+	cmd.Flags().String(flagDataDir, "", "Absolute path to the node data dir where the DB will/is stored")
+	cmd.Flags().String(flagIP, node.DefaultIP, "exposed IP for communication with peers")
+	cmd.Flags().Uint64(flagPort, node.DefaultHTTPort, "exposed HTTP port for communication with peers")
 	cmd.MarkFlagRequired(flagDataDir)
 }
 func init() {

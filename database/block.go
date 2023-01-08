@@ -9,12 +9,16 @@ import (
 type Hash [32]byte
 
 func (h Hash) MarshalText() ([]byte, error) {
-	return []byte(hex.EncodeToString(h[:])), nil
+	return []byte(h.Hex()), nil
 }
 
 func (h *Hash) UnmarshalText(data []byte) error {
 	_, err := hex.Decode(h[:], data)
 	return err
+}
+
+func (h Hash) Hex() string {
+	return hex.EncodeToString(h[:])
 }
 
 type Block struct {
@@ -25,8 +29,7 @@ type Block struct {
 type BlockHeader struct {
 	Parent Hash   `json:"parent"`
 	Number uint64 `json:"number"`
-
-	Time uint64 `json:"time"`
+	Time   uint64 `json:"time"`
 }
 
 type BlockFS struct {
