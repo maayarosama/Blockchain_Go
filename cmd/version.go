@@ -9,10 +9,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const Major = "2"
+const Major = "3"
 const Minor = "1"
 const Fix = "0"
-const Verbal = "Sync"
+const Verbal = "Wallets"
 
 // versionCmd represents the version command
 var versionCmd = &cobra.Command{

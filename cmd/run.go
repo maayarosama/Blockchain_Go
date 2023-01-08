@@ -22,14 +22,16 @@ func runCmd() *cobra.Command {
 			miner, _ := cmd.Flags().GetString(flagMiner)
 			ip, _ := cmd.Flags().GetString(flagIP)
 			port, _ := cmd.Flags().GetUint64(flagPort)
-
+			bootstrapIp, _ := cmd.Flags().GetString(flagBootstrapIp)
+			bootstrapPort, _ := cmd.Flags().GetUint64(flagBootstrapPort)
+			bootstrapAcc, _ := cmd.Flags().GetString(flagBootstrapAcc)
 			fmt.Println("Launching TBB node and its HTTP API...")
 
 			bootstrap := node.NewPeerNode(
-				"127.0.0.1",
-				8080,
+				bootstrapIp,
+				bootstrapPort,
 				true,
-				database.NewAccount("andrej"),
+				database.NewAccount(bootstrapAcc),
 				false,
 			)
 

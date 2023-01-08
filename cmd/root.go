@@ -16,6 +16,9 @@ const flagDataDir = "datadir"
 const flagIP = "ip"
 const flagPort = "port"
 const flagMiner = "miner"
+const flagBootstrapAcc = "bootstrap-account"
+const flagBootstrapIp = "bootstrap-ip"
+const flagBootstrapPort = "bootstrap-port"
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -40,6 +43,9 @@ func addDefaultRequiredFlags(cmd *cobra.Command) {
 	cmd.Flags().String(flagIP, node.DefaultIP, "exposed IP for communication with peers")
 	cmd.Flags().Uint64(flagPort, node.DefaultHTTPort, "exposed HTTP port for communication with peers")
 	cmd.Flags().String(flagMiner, node.DefaultMiner, "miner account of this node to receive block rewards")
+	cmd.Flags().String(flagBootstrapIp, node.DefaultBootstrapIp, "default bootstrap server to interconnect peers")
+	cmd.Flags().Uint64(flagBootstrapPort, node.DefaultBootstrapPort, "default bootstrap server port to interconnect peers")
+	cmd.Flags().String(flagBootstrapAcc, node.DefaultBootstrapAcc, "default bootstrap account to interconnect peers")
 	cmd.MarkFlagRequired(flagDataDir)
 }
 func init() {

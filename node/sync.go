@@ -1,12 +1,11 @@
 package node
 
 import (
+	"Blockchain_Go/database"
 	"context"
 	"fmt"
 	"net/http"
 	"time"
-
-	"Blockchain_Go/database"
 )
 
 func (n *Node) sync(ctx context.Context) error {
@@ -26,6 +25,10 @@ func (n *Node) sync(ctx context.Context) error {
 func (n *Node) doSync() {
 	for _, peer := range n.knownPeers {
 		if n.info.IP == peer.IP && n.info.Port == peer.Port {
+			continue
+		}
+
+		if peer.IP == "" {
 			continue
 		}
 
@@ -121,7 +124,7 @@ func (n *Node) syncKnownPeers(status StatusRes) error {
 	return nil
 }
 
-func (n *Node) syncPendingTXs(peer PeerNode, txs []database.Tx) error {
+func (n *Node) syncPendingTXs(peer PeerNode, txs []database.SignedTx) error {
 	for _, tx := range txs {
 		err := n.AddPendingTX(tx, peer)
 		if err != nil {
